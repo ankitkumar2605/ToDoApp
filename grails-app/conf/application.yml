@@ -110,7 +110,7 @@ environments:
                  dialect: 'org.hibernate.dialect.Oracle12cDialect'
                  username: 'todo'
                  password: 'todo'
-                 dbCreate: 'create'
+                 dbCreate: 'create-drop'
                  properties: 'oracleProperties'
                  url: 'jdbc:oracle:thin:@//localhost:1521/orcl'
     test:
