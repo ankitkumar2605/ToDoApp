@@ -5,7 +5,7 @@ import enums.Status
 class TaskController {
 
     def index() {
-        render "Task"
+        render(view: 'task')
     }
 
     def saveTask(){

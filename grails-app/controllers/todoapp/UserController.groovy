@@ -1,18 +1,27 @@
 package todoapp
 
+import co.EndUserCo
+import org.springframework.validation.BindingResult
+
+
 class UserController {
 
     def index() {
 
     }
 
-    def signup(){
-        EndUser endUser = new EndUser(userEmail:params.email, password: params.password)
-        if(!endUser.save(flush:true))
-            render "Cannot be registered"
+    def signup(EndUserCo endUserCo){
+        if(endUserCo.hasErrors()){
+            render "Unsuccessfull"
+        }else {
+            EndUser endUser = new EndUser()
+            endUser.properties = endUserCo
+            if (!endUser.save(flush: true))
+                render "Cannot be registered"
 
-        else
-            render "Successfully registered!"
+            else
+                render "Successfully registered!"
+        }
     }
 
     def login(){
