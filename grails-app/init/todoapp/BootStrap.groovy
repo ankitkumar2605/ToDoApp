@@ -12,7 +12,7 @@ class BootStrap {
     }
 
     void createUsers(){
-        EndUser user = new EndUser(userEmail: "ankit@gmail.com",password:"asdfghA12",isAdmin: false,isActivated: false)
+        EndUser user = new EndUser(userEmail: "ankit@gmail.com",password:"ankitkumar",firstName: "ankit",lastName: "kumar", isAdmin: false,isActivated: true)
         user.addToTasks(new Task(title: "Meeting",description: "Meeting with team",priority:Priority.HIGH,status: Status.DUE,dueDate:new Date()-1))
         if (user.save(flush:true,failOnError:true)) {
             log.info "${user} saved"

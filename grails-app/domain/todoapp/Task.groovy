@@ -2,12 +2,14 @@ package todoapp
 
 import enums.Priority
 import enums.Status
+import grails.databinding.BindingFormat
 
 class Task {
     String title
     String description
     Priority priority
     Status status
+
     Date dueDate
 
     static belongsTo = [createdBy:EndUser]

@@ -2,6 +2,7 @@ package co
 
 import enums.Priority
 import enums.Status
+import grails.databinding.BindingFormat
 import grails.validation.Validateable
 import todoapp.EndUser
 
@@ -10,6 +11,8 @@ class TaskCO implements Validateable {
     String description
     Priority priority
     Status status
+
+    @BindingFormat("dd-MM-yyyy")
     Date dueDate
 
     static belongsTo = [createdBy:EndUser]

@@ -14,8 +14,8 @@ class EndUser{
     static constraints = {
         userEmail blank: false,email:true,nullable:false
         password blank: false,nullable: false
-        firstName blank: true,nullable: true
-        lastName blank: true,nullable: true
+        firstName blank: false,nullable: false
+        lastName blank: false,nullable: false
         photoUrl blank: true,nullable: true
         isActivated blank: false,nullable:false
         isAdmin blank: false,nullable:false
