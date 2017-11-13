@@ -5,65 +5,50 @@ import enums.Status
 import grails.converters.JSON
 
 class TaskController {
+    def taskService
 
     def index() {
-        render(view: 'task', model: [todoList: Task.list()])
+        render(view: 'task')
     }
 
-    def loadTasks(){
+    def loadTasks() {
         EndUser endUser = session["user"]
-        def todoList = Task.findAllByCreatedByAndStatus(endUser,Status.DUE)
-        render(view: 'task', model: [todoList: todoList])
+       Status status=  params.status
+        def todoList = taskService.dueTaskOfUser(endUser,status)
+        render([todoList: todoList] as JSON)
 
     }
 
     def addTask(TaskCO taskCO) {
-
-        if (taskCO.hasErrors()) {
-            taskCO.errors.allErrors.each {
-                println it
-            }
-            render([success:false,isParamsIncorrect:true] as JSON)
-        } else {
-            Task task = new Task()
-            task.properties = taskCO
-            task.createdBy = session["user"]
-
-            if (!task.save(flush: true)) {
-                task.errors.allErrors.each {
-                    println it
-                }
-                render([success:false] as JSON)
-            } else {
-                render([success:true] as JSON)
-            }
-
-        }
+        EndUser endUser = session["user"]
+        def response = taskService.createTask(taskCO, endUser)
+        render(response as JSON)
     }
+
 
     def taskByStatus() {
         EndUser endUser = session["user"]
         println params.status
-        def todoList = Task.findAllByCreatedByAndStatus(endUser,params.status)
-        render(view: 'task', model: [todoList: todoList])
+        def todoList = Task.findAllByCreatedByAndStatus(endUser, params.status)
+        render([todoList: todoList] as JSON)
     }
 
     def updateTaskStatus() {
         Task task = Task.get(params.id)
         task.status = Status.DONE
         if (!task.save(flush: true))
-            render([success:false] as JSON)
+            render([success: false] as JSON)
 
         else
-            render([success:true] as JSON)
+            render([success: true] as JSON)
     }
 
     def removeTask() {
         Task task = Task.get(params.id)
         if (task && !task.delete(flush: true)) {
-            render([success:true] as JSON)
+            render([success: true] as JSON)
         } else {
-            render([success:false] as JSON)
+            render([success: false] as JSON)
         }
     }
 

@@ -84,7 +84,7 @@ $(document).ready(function () {
                     data: data,
                     success: function (result) {
                        if(result.success && result.isActive){
-                           window.location = "/task/loadTasks"
+                           window.location = "/task/index"
                        }else if(result.success && !result.isActive){
                            window.location = "sendActivationCode"
                        }else{

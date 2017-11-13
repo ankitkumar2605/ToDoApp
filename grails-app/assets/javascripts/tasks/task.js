@@ -1,7 +1,6 @@
 //= require jquery-2.2.0.min
 
 
-
 $(document).ready(function () {
     var dateToday = new Date();
     $("#datepicker").datepicker({
@@ -12,15 +11,15 @@ $(document).ready(function () {
 
     $('#submit').one('click', addTask);
 
-    $(document).on("click", ".edit",function () {
+    $(document).on("click", ".edit", function () {
 
         $(".modal-body #title").val();
     });
-
+    loadTasks("DUE")
 })
 
-function editTask(editBtn,todo) {
-    $(".modal-body #title").val(todo);
+function editTask(editBtn, id,title,description,priority,dueDate) {
+    $(".modal-body #title").val(id);
 
 }
 
@@ -42,6 +41,7 @@ function deleteTask(deleteBtn, id) {
         }
     });
 }
+
 function markAsComplete(markCompletebtn, id) {
     $.ajax({
         url: "http://localhost:8090/task/updateTaskStatus",
@@ -72,14 +72,14 @@ var addTask = function (e) {
         type: "POST",
         data: {title: title, description: description, dueDate: dueDate, priority: priority, status: status},
         success: function (result) {
-            if(result.success){
-            $('#submit').one('click', addTask);
-            $('#close').click();
-            $(".modal-body input,textarea").val("")
-            window.location ="loadTasks"
-            }else if (!result.success && result.isParamsIncorrect) {
+            if (result.success) {
+                $('#submit').one('click', addTask);
+                $('#close').click();
+                $(".modal-body input,textarea").val("")
+                loadTasks("DUE")
+            } else if (!result.success && result.isParamsIncorrect) {
                 alert("Please send correct params")
-            }else{
+            } else {
                 alert("Please try again")
             }
 
@@ -93,15 +93,24 @@ var addTask = function (e) {
     return false;
 }
 
-function loadTasks() {
-    ajax({
+function loadTasks(status) {
+    $.ajax({
         url: "http://localhost:8090/task/loadTasks",
         type: "POST",
         data: {status: status},
-        success: function (result) {
-             //window.location ="loadTasks"
+        success: function (response) {
+            $('#todoTable tbody').empty()
+            $.each(response.todoList, function (i, item) {
+                $('<tr>').html(
+                    "<td>" + item.title + "</td><td>" + item.description + "</td><td>" + item.dueDate + "</td>" +
+                    "<td>" + '<button type="button" onclick="editTask(this,'+item.id+')"  class="btn btn-primary edit" data-toggle="modal" data-target="#addTask">Edit</button>' +
+                    ' <button type="button" id ="removeTask" class="btn btn-danger" onclick="deleteTask(this ,' + item.id + ')">Delete</button>' +
+                    ' <button type="button" class="btn btn-success" onclick="markAsComplete(this,'+item.id+')">Mark As Complete</button>' +
+
+                    " </td>").appendTo('#todoTable');
+            });
         },
-        error:function (result) {
+        error: function (result) {
 
         }
     })

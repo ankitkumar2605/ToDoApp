@@ -1,15 +1,5 @@
-<table class="table table-bordered table-hover">
-    <thead class="thead-inverse">
     <tr>
-        <th>Title</th>
-        <th>Description</th>
-        <th>Due Date</th>
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td class="col-md-4 j">${todo?.title}</td>
+        <td class="col-md-4 ">${todo?.title}</td>
         <td class="col-md-3">${todo?.description}</td>
         <td class="col-md-2">${todo?.dueDate}</td>
         <td class="col-md-3">
@@ -19,5 +9,3 @@
         </td>
     </tr>
 
-    </tbody>
-</table>

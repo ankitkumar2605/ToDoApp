@@ -26,15 +26,33 @@
             <p class="navbar-brand">TODO APP</p>
         </div>
         <ul class="nav navbar-nav">
-            <li class="active"><g:link controller="task" action = "taskByStatus" params="[status:'DUE']">Home</g:link></li>
-            <li><g:link controller="task" action = "taskByStatus" params="[status:'DONE']">COMPLETED</g:link></li>
+            <li class="active"><button type="button " class="btn btn-danger navbar-btn" style="background: transparent ;border-color:black" onclick="loadTasks('DUE')">HOME</button></li>
+            <li><button type="button "  class="btn btn-danger navbar-btn" style="background: transparent ;border-color:black" onclick="loadTasks('DONE')">COMPLETED</button></li>
             <li><a href="#">OVERDUE</a></li>
         </ul>
     </div>
 </nav>
-
 <div class="container">
-    <g:render template="todoTemplate" var="todo" collection="${todoList}"/>
+    <div id="todoList">
+
+        <table class="table table-bordered table-hover" id="todoTable">
+            <thead class="thead-inverse">
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Due Date</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+
+    </div>
+
+</div>
+<div class="container">
 
     <div class="fab" data-toggle="modal" data-target="#addTask">+</div>
 
